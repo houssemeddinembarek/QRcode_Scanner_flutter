@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:barcode_scan2/barcode_scan2.dart';
-import 'package:flutter/services.dart';
-import 'package:qrcode2/pages/home_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:qrcode2/features/scanner/presentation/bloc/qr_bloc.dart';
+import 'package:qrcode2/features/scanner/presentation/pages/qr_scanner_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'QRcode',
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
+    return BlocProvider(
+      create: (context) => QrBloc()..add(const GetCoursesEvent()),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'QRcode',
+        theme: ThemeData(
+          primarySwatch: Colors.indigo,
+        ),
+        home: const QrScannerScreen(),
       ),
-      home: HomePage(),
     );
   }
 }
