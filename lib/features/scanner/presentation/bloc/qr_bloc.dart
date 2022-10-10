@@ -1,15 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:EducationPourTous/features/scanner/domain/entities/course.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:EducationPourTous/features/scanner/data/models/course_model.dart';
-// import 'package:qrcode2/features/scanner/data/models/course_model.dart';
-// import 'package:qrcode2/features/scanner/domain/entities/course.dart';
-import 'package:EducationPourTous/features/scanner/domain/entities/course.dart';
+import 'package:get/get.dart';
 
 part 'qr_event.dart';
 part 'qr_state.dart';
@@ -33,8 +30,9 @@ class QrBloc extends Bloc<QrEvent, QrState> {
 
     on<GetCourseEvent>((event, emit) {
       try {
-        final course = state.courses
-            .firstWhere((element) => element.ref.toString() == event.ref);
+        print("---------------");
+
+        final course = state.courses.firstWhere((element) => element.ref.toString() == event.ref);
 
         emit(state.copyWith(course: course));
       } catch (e) {

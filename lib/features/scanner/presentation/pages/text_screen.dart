@@ -1,13 +1,23 @@
-import 'package:EducationPourTous/features/scanner/presentation/bloc/qr_bloc.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:EducationPourTous/features/scanner/presentation/bloc/qr_bloc.dart';
 
 class TextScreen extends StatelessWidget {
-const TextScreen({ Key? key }) : super(key: key);
+  const TextScreen({
+    Key? key,
+    required this.res,
+  }) : super(key: key);
+  final String res;
 
   @override
-  Widget build(BuildContext context){
-    return  BlocBuilder<QrBloc, QrState>(
+  Widget build(BuildContext context) {
+
+   
+
+      
+  
+    return BlocBuilder<QrBloc, QrState>(
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
