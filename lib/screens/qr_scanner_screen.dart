@@ -32,18 +32,6 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
       print('Max duration: $d');
       setState(() => _duration = d);
     });
-
-    //  advancedPlayer.onPlayerComplete.listen((event) {
-    //   onComplete();
-    //   setState(() {
-    //     _position = _duration;
-    //   });
-    // });
-
-    // advancedPlayer.onPlayerStateChanged.listen((PlayerState s) => {
-    //   print('Current player state: $s');
-    //   setState(() => playerState = s);
-    // });
   }
 
   Widget _tab(List<Widget> children) {
@@ -66,18 +54,13 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
   }
 
   Widget localAsset() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _tab([
-          // Text('Play Local Asset \'audio.mp3\':'),
-          _btn('Play',
-              () => advancedPlayer.play(AssetSource(qrcodeText.toString()))),
-          _btn('Pause', () => advancedPlayer.pause()),
-          _btn('Stop', () => advancedPlayer.stop())
-        ]),
-      ],
-    );
+    return _tab([
+      // Text('Play Local Asset \'audio.mp3\':'),
+      _btn('Play',
+          () => advancedPlayer.play(AssetSource(qrcodeText.toString()))),
+      _btn('Pause', () => advancedPlayer.pause()),
+      _btn('Stop', () => advancedPlayer.stop())
+    ]);
   }
 
   String qrcodeText = "";
@@ -91,23 +74,65 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
     setState(() {
       qrcodeText = res;
     });
-    //  BlocProvider.of<QrBloc>(context).add(GetCourseEvent(ref: res));
-    //  Navigator.push(context, MaterialPageRoute(builder: (context) => TextScreen(res: res)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Education Pour Tous'),
+      appBar: AppBar(
+        title: Center(child: Text('Education Pour Tous')),
+        backgroundColor: Colors.red,
+      ),
+      body: Container(
+        padding: EdgeInsets.symmetric(vertical: 30),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/tree.png"),
+            fit: BoxFit.cover,
+          ),
         ),
-        body: Container(child: localAsset()),
-        floatingActionButton: FloatingActionButton.extended(
-          icon: const Icon(Icons.camera_alt),
-          label: const Text("Scan"),
-          onPressed: () {
-            _scanQR(context);
-          },
-        ));
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    child: Text('Scan'),
+                    onPressed: () {
+                      _scanQR(context);
+                      advancedPlayer.stop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _btn(
+                    'Play',
+                    () => advancedPlayer
+                        .play(AssetSource(qrcodeText.toString()))),
+                SizedBox(
+                  width: 10,
+                ),
+                _btn('Pause', () => advancedPlayer.pause()),
+                SizedBox(
+                  width: 10,
+                ),
+                _btn('Stop', () => advancedPlayer.stop())
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void dispose() {
+    super.dispose();
+    advancedPlayer.dispose();
   }
 }
